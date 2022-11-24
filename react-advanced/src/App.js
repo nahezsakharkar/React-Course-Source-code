@@ -1,24 +1,28 @@
-import logo from './logo.svg';
+import { useState } from 'react';
+import MoviePage from './context/MoviePage';
+import Login from './context/Login';
+import UserContext from './context/userContext';
 import './App.css';
+import CartContext from './context/cartContext';
 
 function App() {
+  const [currentUser, setCurrentUser] = useState(null)
+
+  const handleLoggedIn = (username) => {
+    console.log("Getting the user: ", username)
+    const user = { name: "john" }
+    setCurrentUser(user)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <CartContext.Provider value={{ cart: [] }}>
+      <UserContext.Provider value={{ currentUser: currentUser, onLoggedIn: handleLoggedIn }}>
+        <div className="App">
+          <MoviePage />
+          <Login />
+        </div>
+      </UserContext.Provider>
+    </CartContext.Provider>
   );
 }
 
